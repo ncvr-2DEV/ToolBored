@@ -4,90 +4,64 @@ param (
 )
 
 Add-Type -AssemblyName PresentationFramework
-
-# Debugging: Print the entire object
-$Settings | Format-List
-Write-Host "
-Settings applied:"
-$($global:settings) | Out-String | Write-Host
-
-# Decide on game parameters based on mode
-if ($Settings.SpeedrunMode -eq $true) {
-    # Speedrun mode: Predefined values
-    $global:targetCount = 30
-    $global:targetSize  = 100
-    $global:mode        = "Instant"
-} else {
-    # Normal mode: Use user-provided settings
-    $global:targetCount = $Settings.TotalRounds
-    $global:targetSize  = $Settings.WindowSize
-    $global:mode        = $Settings.TimingMode
-}
-
-# Load necessary assemblies
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# Stopwatch for timing
+# Debugging: Print the entire object and settings
+$Settings | Format-List
+Write-Host "`nSettings applied:"
+$($Settings) | Out-String | Write-Host
+
+# Initialize global game parameters based on mode
+$global:targetCount = if ($Settings.SpeedrunMode) { 30 } else { $Settings.TotalRounds }
+$global:targetSize  = if ($Settings.SpeedrunMode) { 100 } else { $Settings.WindowSize }
+$global:mode        = if ($Settings.SpeedrunMode) { "Instant" } else { $Settings.TimingMode }
+$global:activationMode = if ($Settings.SpeedrunMode) { "MouseClick" } else { $Settings.ActivationMode }
+
+# Global stopwatch and statistics
 $global:stopwatch = [System.Diagnostics.Stopwatch]::New()
 $global:roundsCompleted = 0
 $global:fastestTime = [Double]::MaxValue
 $global:totalTime = 0
 
-
-
 # Function to spawn a target window
 function Spawn-Target {
-    # Create target window
-    $form = New-Object Windows.Forms.Form
-    $form.Text = "Target"
-    $form.Width = $global:targetSize
-    $form.Height = $global:targetSize
-    $form.StartPosition = [Windows.Forms.FormStartPosition]::Manual
-
-    # Random position on the screen
+    $global:form = New-Object Windows.Forms.Form
+    $global:form.Text = "Target"
+    $global:form.Width = $global:targetSize
+    $global:form.Height = $global:targetSize
+    $global:form.StartPosition = [Windows.Forms.FormStartPosition]::Manual
     $screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
     $screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
     $randX = Get-Random -Minimum 0 -Maximum ($screenWidth - $global:targetSize)
     $randY = Get-Random -Minimum 0 -Maximum ($screenHeight - $global:targetSize)
-    $form.Location = New-Object Drawing.Point($randX, $randY)
-    $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+    $global:form.Location = New-Object Drawing.Point($randX, $randY)
+    $global:form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
 
-    # Attach MouseEnter event – this will fire when the cursor hovers over the target.
-    $form.add_MouseEnter({
-        if ($Settings.ActivationMode -eq "MouseHover") { Update-stats }
-    })
+    # Attach events based on the activation mode
+    $global:form.add_MouseEnter({ if ($global:activationMode -eq "MouseHover") { Update-Stats } })
+    $global:form.add_MouseClick({ if ($global:activationMode -eq "MouseClick") { Update-Stats } })
 
-    # Attach MouseClick event – this will fire when the target is clicked.
-    $form.add_MouseClick({
-        if ($Settings.ActivationMode -eq "MouseClick") { Update-stats }
-    })
+    # Start timing if not in Speedrun mode
+    if (-not $Settings.SpeedrunMode) { $global:stopwatch.Start() }
 
-    # Start timing if not in Speedrun mode.
-    if (-not $Settings.SpeedrunMode) {
-        $global:stopwatch.Start()
-    }
+    # Show the form modally and wait for the user to close it
+    $global:form.ShowDialog() | Out-Null
 
-    # Show the form modally. This call blocks until the form is closed.
-    $form.ShowDialog() | Out-Null
-
-    # After the form is closed, check if we need another round.
+    # Handle rounds completion and spawn the next target if necessary
     if ($global:roundsCompleted -lt $global:targetCount) {
-        if ($mode -eq "Random") {
+        if ($global:mode -eq "Random") {
             Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 3000)
         }
-         Spawn-Target   # Launch the next target
+        Spawn-Target
     } else {
-        $global:stopwatch.Stop()  # Stop the stopwatch if in Speedrun mode.
-         Show-Results  # All rounds completed; display results.
+        $global:stopwatch.Stop()  # Stop stopwatch if in Speedrun mode
+        Show-Results
     }
 }
 
-
-
 # Function to update statistics after a target is hit
-function Update-stats {
-    # Update statistics
+function Update-Stats {
     if (-not $Settings.SpeedrunMode) {
         $global:stopwatch.Stop()
         $timeTaken = $global:stopwatch.ElapsedMilliseconds / 1000.0
@@ -97,45 +71,80 @@ function Update-stats {
     $global:totalTime += $timeTaken
     $global:fastestTime = [Math]::Min($global:fastestTime, $timeTaken)
     $global:roundsCompleted++
-    $form.Close()
+    $global:form.Close()
 }
 
-
-
-# Function to display results once rounds are complete
+# Function to display results once all rounds are complete
+# Function to display results once all rounds are complete
 function Show-Results {
-    if (-not $Settings.SpeedrunMode) {
-        $avgTime = $global:totalTime / $global:targetCount
-        $resultsMessage = "Game Over!`n`nTotal Rounds: $global:targetCount`nFastest Time: $([Math]::Round($global:fastestTime, 3)) seconds`nAverage Time: $([Math]::Round($avgTime, 3)) seconds"
+    $global:avgTime = if (-not $Settings.SpeedrunMode) { $global:totalTime / $global:targetCount } else { 0 }
+
+    # Define log file path and create directory if necessary
+    $global:logFilePath = "bin\aimtrainertimes.log"
+    $global:logDir = Split-Path $global:logFilePath
+    if (-not (Test-Path $global:logDir)) { New-Item -ItemType Directory -Path $global:logDir -Force | Out-Null }
+
+    # Read existing log file or initialize default values
+    if (Test-Path $global:logFilePath) {
+        $global:lines = Get-Content -Path $global:logFilePath
     } else {
-        # Stop the stopwatch and show the total elapsed time in milliseconds.
-        $global:stopwatch.Stop()
-        $resultsMessage = "Game Over!`n`nTime: $($global:stopwatch.ElapsedMilliseconds) ms"
+        $global:lines = @("N/A", "N/A", "N/A")
     }
+
+    # Ensure $global:lines has at least 3 elements
+    if ($global:lines.Count -lt 3) {
+        $global:lines += @("N/A") * (3 - $global:lines.Count)
+    }
+
+    # Initialize the fastest times with the special default value for "N/A"
+    $global:currentFastestTime = if ($global:lines[0] -eq "N/A") { [double]::MaxValue } else { [double]$global:lines[0] }
+    $global:currentFastestAvg = if ($global:lines[1] -eq "N/A") { [double]::MaxValue } else { [double]$global:lines[1] }
+    $global:currentFastestSR = if ($global:lines[2] -eq "N/A") { [double]::MaxValue } else { [double]$global:lines[2] }
+
+    # Update best times if applicable
+    if ($Settings.SpeedrunMode) {
+        $global:stopwatch.Stop()
+        $global:fastestTime = $global:stopwatch.ElapsedMilliseconds / 1000.0
+        if ($global:fastestTime -lt $global:currentFastestSR) { $global:lines[2] = $global:fastestTime }
+    } else {
+        if ($global:fastestTime -lt $global:currentFastestTime) { $global:lines[0] = $global:fastestTime }
+        if ($global:avgTime -lt $global:currentFastestAvg) { $global:lines[1] = $global:avgTime }
+    }
+
+    # Write updated stats to the log file
+    Set-Content -Path $global:logFilePath -Value $global:lines
+
+    # Show results message
+    $resultsMessage = if ($Settings.SpeedrunMode) {
+        "Game Over!`n`nTime: $($global:stopwatch.ElapsedMilliseconds) ms"
+    } else {
+        "Game Over!`n`nTotal Rounds: $global:targetCount`nFastest Time: $([Math]::Round($global:fastestTime, 3)) seconds`nAverage Time: $([Math]::Round($global:avgTime, 3)) seconds"
+    }
+
     [System.Windows.Forms.MessageBox]::Show($resultsMessage, "Aim Trainer Results")
 
     # Ask if the user wants to play again
     $playAgain = [System.Windows.Forms.MessageBox]::Show("Do you want to play again?", "Play Again", [System.Windows.Forms.MessageBoxButtons]::YesNo)
     if ($playAgain -eq [System.Windows.Forms.DialogResult]::Yes) {
-        $global:roundsCompleted = 0
-        $global:totalTime = 0
-        $global:fastestTime = [Double]::MaxValue
-        $global:stopwatch.Reset()
-        Spawn-Target  # Restart the game
+        Reset-Game
+        Spawn-Target
     } else {
-        # Close the application if the user chooses not to play again.
         [System.Windows.Forms.Application]::Exit()
+        .\bin\cb2\aimtrainer.ps1
     }
-
 }
 
 
 
-# Start the aim trainer engine by launching the first target.
-if ($($Settings.SpeedrunMode)) {
+# Function to reset the game for replay
+function Reset-Game {
+    $global:roundsCompleted = 0
+    $global:totalTime = 0
+    $global:fastestTime = [Double]::MaxValue
+    $global:stopwatch.Reset()
     $global:stopwatch.Start()
 }
 
+# Start the aim trainer game
+if ($Settings.SpeedrunMode) { $global:stopwatch.Start() }
 Spawn-Target
-
-Restart

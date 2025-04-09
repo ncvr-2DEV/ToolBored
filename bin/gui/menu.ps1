@@ -22,7 +22,7 @@ $comboBox = New-Object System.Windows.Controls.ComboBox
 @(
     "mousejiggle", "randomsound", "fakehack", "notepadbomb",
     "foldermaze", "textglitcher", "schooltimer", "quoteofday",
-    "noclip", "noteself", "aimtrainer", "exit"
+    "noclip", "noteself", "aimtrainer"
 ) | ForEach-Object {
     $comboBox.Items.Add($_) | Out-Null
 }
@@ -31,8 +31,24 @@ $panel.Children.Add($comboBox)
 # Button: submit
 $button = New-Object System.Windows.Controls.Button
 $button.Content = "Start extension"
+$button.Width = 250
+$button.Height = 50
 $button.Margin = [System.Windows.Thickness]::new(0, 10, 0, 0)
 $panel.Children.Add($button)
+
+# Exit button
+$exitbutton = New-Object System.Windows.Controls.Button
+$exitbutton.Content = "Exit"
+$exitbutton.Width = 150
+$exitbutton.Height = 30
+$exitbutton.VerticalAlignment = "Bottom"
+$exitbutton.HorizontalAlignment = "Left"
+$exitbutton.Margin = [System.Windows.Thickness]::new(0, 480, 0, 0)
+$panel.Children.Add($exitbutton)
+$exitbutton.Add_Click({
+    $window.Close()
+    Stop-Process -Id $PID
+})
 
 # Variable to capture selected module
 $script:SelectedModule = $null
@@ -55,5 +71,5 @@ if ($SelectedModule) {
     .\bin\selector.ps1 -Module $SelectedModule
 } else {
     Write-Host "No module selected." -ForegroundColor Yellow
-    Stop-Process -Id $PID
+    Restart
 }

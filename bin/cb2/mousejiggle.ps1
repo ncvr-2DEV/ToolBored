@@ -42,8 +42,8 @@ $EXIT_ID   = 2
 # --- Global Variables ---
 $global:exit = $false
 $global:settings = @{
-    Delay     = 100
-    Intensity = 10
+    Delay     = 0
+    Intensity = 0
     Pattern   = "circle"
 }
 $global:JigglerPath = ".\bin\modules\mousejctrl.ps1"
@@ -115,7 +115,7 @@ function Start-Jiggler {
     }
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName = "powershell.exe"
-    $psi.Arguments = "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$JigglerPath`" -delay $($settings.Delay) -intensity $($settings.Intensity) -pattern $($settings.Pattern)"
+    $psi.Arguments = "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$JigglerPath`" -delay $($global:settings.Delay) -intensity $($global:settings.Intensity) -pattern $($global:settings.Pattern)"
     $psi.CreateNoWindow = $true
     $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
     $psi.UseShellExecute = $false

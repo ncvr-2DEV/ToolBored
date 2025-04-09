@@ -41,11 +41,6 @@ if ($Module -eq "mousejiggle") {
 } elseif ($Module -eq "aimtrainer") {
     # Load the aimtrainer module
     .\bin\cb2\aimtrainer.ps1
-} elseif ($Module -eq "exit") {
-    # Exit the script
-    Write-Host "Exiting ToolBored..." -ForegroundColor Green
-    Start-Sleep -Seconds 2
-    Stop-Process -Id $PID
 } else {
     Write-Host "Invalid module specified." -ForegroundColor Red
     Restart

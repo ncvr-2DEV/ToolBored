@@ -160,6 +160,7 @@ $speedrunCheck.Add_Checked({
     $sizeSlider.IsEnabled = $false
     $instantRadio.IsEnabled = $false
     $randomRadio.IsEnabled = $false
+    $actvButtons.IsEnabled = $false
     $roundsValueText.Visibility = "Collapsed"
     $sizeValueText.Visibility = "Collapsed"
 })
@@ -168,6 +169,7 @@ $speedrunCheck.Add_Unchecked({
     $sizeSlider.IsEnabled = $true
     $instantRadio.IsEnabled = $true
     $randomRadio.IsEnabled = $true
+    $actvButtons.IsEnabled = $true
     $roundsValueText.Visibility = "Visible"
     $sizeValueText.Visibility = "Visible"
 })
@@ -191,3 +193,5 @@ $startButton.Add_Click({
 # Assign content and show window
 $window.Content = $grid
 $window.ShowDialog() | Out-Null
+
+Restart
