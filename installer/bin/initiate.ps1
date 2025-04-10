@@ -27,11 +27,20 @@ Start-Sleep -Seconds 2
 # File list
 $files = @(
     "ToolBored.ps1",
-    "ToolBored.cmd",
+    "ToolBored-Launcher.cmd",
+    "LICENSE.md",
+    "README.md",
     "bin/alias.ps1",
+    "bin/reset.ps1",
     "bin/selector.ps1",
+    "bin/cb2/aimtrainer.ps1",
     "bin/cb2/menu.ps1"
-)
+    "bin/cb2/mousejiggle.ps1",
+    "bin/gui/menu.ps1",
+    "bin/modules/aimtrainerengine.ps1",
+    "bin/modules/aimtrainersettings.ps1",
+    "bin/modules/mousejctrl.ps1"
+    )
 
 $uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/stable/"
 
