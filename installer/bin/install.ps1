@@ -257,21 +257,21 @@ $global:nextButton.Add_Click({
         $global:nextButton.Content = "Install"
     } elseif ($global:installLabel.Visibility -eq "Visible") {
         # Correct Variables
-        if ($global:versionSelectDropDown.SelectedItem -eq "Stable Install - Use the most reliable version.") {
-            $global:versionSelectDropDown.SelectedItem = "Stable"
-        } elseif ($global:versionSelectDropDown.SelectedItem -eq "Beta Version - Use the most recent updates.") {
-            $global:versionSelectDropDown.SelectedItem = "Beta"
-        } elseif ($global:versionSelectDropDown.SelectedItem -eq "SmoothGUI-Beta - Use the SmoothGUI version. (Experimental)") {
-            $global:versionSelectDropDown.SelectedItem = "SmoothGUI-Beta"
+        if ($global:versionSelectDropDown.SelectedIndex -eq 0) {
+            $global:Version = "Stable"
+        } elseif ($global:versionSelectDropDown.SelectedIndex -eq 1) {
+            $global:Version = "Beta"
+        } elseif ($global:versionSelectDropDown.SelectedIndex -eq 2) {
+            $global:Version = "SmoothGUI-Beta"
         }
         $global:Path = "$($global:folderPath.Text)\ToolBored"
         # Call the installation script here
         Start-Process -FilePath "powershell.exe" -ArgumentList @(
             "-ExecutionPolicy", "Bypass",
-            "-NoExit",
+            "-NoProfile",
             "-File", ".\bin\initiate.ps1",
             "-Path", "`"$($global:Path)`"",
-            "-Version", "`"$($global:versionSelectDropDown.SelectedItem)`"",
+            "-Version", "`"$($global:Version)`"",
             "-License", "$($global:ulaAccept.IsChecked)"
         )
         $exit = $true
