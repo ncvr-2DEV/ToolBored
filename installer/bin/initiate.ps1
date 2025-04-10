@@ -26,7 +26,7 @@ Start-Sleep -Seconds 2
 
 # File list
 $files = @(
-    "ToolBored.ps1",
+    "TB.ps1",
     "ToolBored-Launcher.cmd",
     "LICENSE.md",
     "README.md",
