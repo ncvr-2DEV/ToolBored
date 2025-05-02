@@ -1,3 +1,5 @@
+# This is the setup for the installer. It sets the parameters for the installation process.
+
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 
@@ -164,6 +166,39 @@ $global:grid.Children.Add($global:versionSelectDropDown)
 $global:versionSelectDropDown.SetValue([Windows.Controls.Grid]::RowProperty, 1)
 
 
+
+### StackPanel for extra options
+$global:extraOptionsSP = New-Object Windows.Controls.StackPanel
+$global:extraOptionsSP.Orientation = "Vertical"
+$global:extraOptionsSP.Visibility = "Hidden"
+$global:extraOptionsSP.Margin = '0,10,0,0'
+$global:extraOptionsSP.SetValue([Windows.Controls.Grid]::RowProperty, 1)
+$global:extraOptionsSP.HorizontalAlignment = "Left"
+$global:grid.Children.Add($global:extraOptionsSP)
+
+# Checkbox 1 - Desktop Shortcut
+$global:desktopShortcut = New-Object Windows.Controls.CheckBox
+$global:desktopShortcut.Content = "Create a desktop shortcut"
+$global:desktopShortcut.Margin = "0,0,0,10"
+$global:desktopShortcut.IsChecked = $true
+$global:extraOptionsSP.Children.Add($global:desktopShortcut)
+
+# Checkbox 2 - Start Menu Shortcut
+$global:startMenuShortcut = New-Object Windows.Controls.CheckBox
+$global:startMenuShortcut.Content = "Create a Start Menu shortcut"
+$global:startMenuShortcut.Margin = "0,0,0,10"
+$global:startMenuShortcut.IsChecked = $true
+$global:extraOptionsSP.Children.Add($global:startMenuShortcut)
+
+# Checkbox 3 - Start after install
+$global:startAfterInstall = New-Object Windows.Controls.CheckBox
+$global:startAfterInstall.Content = "Start ToolBored after installation"
+$global:startAfterInstall.Margin = "0,0,0,10"
+$global:startAfterInstall.IsChecked = $true
+$global:extraOptionsSP.Children.Add($global:startAfterInstall)
+
+
+
 ### Install Button
 
 # Install Button Label
@@ -254,6 +289,7 @@ $global:nextButton.Add_Click({
         $global:versionSelectDropDown.Visibility = "Hidden"
         $global:versionLabel.Visibility = "Hidden"
         $global:installLabel.Visibility = "Visible"
+        $global:extraOptionsSP.Visibility = "Visible"
         $global:nextButton.Content = "Install"
     } elseif ($global:installLabel.Visibility -eq "Visible") {
         # Correct Variables
@@ -273,6 +309,9 @@ $global:nextButton.Add_Click({
             "-Path", "`"$($global:Path)`"",
             "-Version", "`"$($global:Version)`"",
             "-License", "$($global:ulaAccept.IsChecked)"
+            "-DS", "$($global:desktopShortcut.IsChecked)",
+            "-SM", "$($global:startMenuShortcut.IsChecked)",
+            "-Start", "$($global:startAfterInstall.IsChecked)"
         )
         $exit = $true
         $global:Window.Close()
@@ -299,6 +338,12 @@ $global:backButton.Add_Click({
         $global:versionLabel.Visibility = "Hidden"
         $global:folderSP.Visibility = "Visible"
         $global:folderLabel.Visibility = "Visible"
+    } elseif ($global:installLabel.Visibility -eq "Visible") {
+        $global:installLabel.Visibility = "Hidden"
+        $global:extraOptionsSP.Visibility = "Hidden"
+        $global:versionSelectDropDown.Visibility = "Visible"
+        $global:versionLabel.Visibility = "Visible"
+        $global:nextButton.Content = "Next -->"
     }
 })
 

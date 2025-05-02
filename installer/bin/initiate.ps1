@@ -1,8 +1,13 @@
 param(
     [string]$Path = "ERROR: Path not set",
     [string]$Version = "ERROR: Version not set",
-    [string]$License = "false"
+    [string]$License = "false",
+    [string]$DS="false",
+    [string]$SM="false",
+    [string]$Start="false"
 )
+
+# This is the installer for ToolBored.
 
 if ($Path -eq "ERROR: Path not set" -or $Version -eq "ERROR: Version not set") {
     Write-Host "`n[ERROR] Path or Version not set. Please check your configuration." -ForegroundColor DarkRed
@@ -75,6 +80,35 @@ foreach ($file in $files) {
     }
 }
 
+
+
+Start-Sleep -Seconds 1
+if ($DS -eq "true") {
+    Write-Host "[INFO] Creating shortcut on Desktop..." -ForegroundColor Blue
+    $shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath('Desktop'), 'ToolBored.lnk')
+    $WshShell = New-Object -ComObject WScript.Shell
+    $shortcut = $WshShell.CreateShortcut($shortcutPath)
+    $shortcut.TargetPath = [System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd')
+    $shortcut.WorkingDirectory = $Path
+    $shortcut.Save()
+}
+if ($SM -eq "true") {
+    Write-Host "[INFO] Creating shortcut in Start Menu..." -ForegroundColor Blue
+    $startMenuPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath('StartMenu'), 'Programs', 'ToolBored.lnk')
+    $WshShell = New-Object -ComObject WScript.Shell
+    $shortcut = $WshShell.CreateShortcut($startMenuPath)
+    $shortcut.TargetPath = [System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd')
+    $shortcut.WorkingDirectory = $Path
+    $shortcut.Save()
+}
+if ($Start -eq "true") {
+    Write-Host "[INFO] Starting ToolBored..." -ForegroundColor Blue
+    Start-Process -FilePath ([System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd'))
+}
+
+
+
+# End of installation
 Write-Host "`n[INFO] Installation completed." -ForegroundColor Blue
 Start-Sleep -Seconds 1
 exit 1
