@@ -19,7 +19,7 @@ CLI - Command Line Interface, more advanced, looks more intimidating." -Foregrou
     Start-Sleep -Seconds 2
     $host.Ui.RawUI.WindowTitle = "ToolBored - [$Global:UiType]"
     Clear-Host
-    Start-Process -FilePath "powershell.exe" -ArgumentList '-ExecutionPolicy Bypass -File "ToolBored.ps1"'
+    Start-Process -FilePath "powershell.exe" -ArgumentList '-ExecutionPolicy Bypass -File "TB.ps1"'
 }
 
 # Check if the configuration file exists

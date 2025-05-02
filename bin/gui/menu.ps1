@@ -20,9 +20,15 @@ $panel.Children.Add($label)
 # ComboBox: module list
 $comboBox = New-Object System.Windows.Controls.ComboBox
 @(
-    "mousejiggle", "randomsound", "fakehack", "notepadbomb",
-    "foldermaze", "textglitcher", "schooltimer", "quoteofday",
-    "noclip", "noteself", "aimtrainer"
+    "mousejiggle",
+    "randomsound",
+    "fakehack",
+    "foldermaze",
+    "textglitcher",
+    "schooltimer",
+    "quoteofday",
+     "flashcard",
+     "aimtrainer"
 ) | ForEach-Object {
     $comboBox.Items.Add($_) | Out-Null
 }

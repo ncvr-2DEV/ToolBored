@@ -17,9 +17,6 @@ if ($Module -eq "mousejiggle") {
 } elseif ($Module -eq "fakehack") {
     # Load the fakehack module
     .\bin\cb2\fakehack.ps1
-} elseif ($Module -eq "notepadbomb") {
-    # Load the notepadbomb module
-    .\bin\cb2\notepadbomb.ps1
 } elseif ($Module -eq "foldermaze") {
     # Load the foldermaze module
     .\bin\cb2\foldermaze.ps1
@@ -32,12 +29,9 @@ if ($Module -eq "mousejiggle") {
 } elseif ($Module -eq "quoteofday") {
     # Load the quoteofday module
     .\bin\cb2\quoteofday.ps1
-} elseif ($Module -eq "noclip") {
-    # Load the noclip module
-    .\bin\cb2\noclip.ps1
-} elseif ($Module -eq "noteself") {
-    # Load the noteself module
-    .\bin\cb2\noteself.ps1
+} elseif ($Module -eq "flashcard") {
+    # Load the flashcard module
+    .\bin\cb2\flashcard.ps1
 } elseif ($Module -eq "aimtrainer") {
     # Load the aimtrainer module
     .\bin\cb2\aimtrainer.ps1
