@@ -2,7 +2,7 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 # Create the window
 $window = New-Object System.Windows.Window
-$window.Title = "Tool Bored v0.01-preview - [$($Global:UiType)- $($Global:comstatDirectX)]"
+$window.Title = "ToolBored $($global:appversionid) - [$($Global:UiType)- $($Global:comstatDirectX)]"
 $window.Width = 1000
 $window.Height = 700
 $window.WindowStartupLocation = "CenterScreen"

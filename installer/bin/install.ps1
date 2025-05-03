@@ -406,6 +406,7 @@ $global:Window.Add_Closing({
         $global:ulaButtonSP.Visibility = "Hidden"
         $global:installLabel.Visibility = "Hidden"
         $global:langDropDown.Visibility = "Hidden"
+        $global:extraOptionsSP.Visibility = "Hidden"
         $global:exitLabel.Visibility = "Visible"
         $global:Window.WindowStyle = "None"
 
