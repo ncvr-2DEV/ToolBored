@@ -100,6 +100,7 @@ $applyBtn.Add_Click({
     $global:settings.Pattern   = $patternBox.SelectedItem
 
     Write-Host "Settings applied: Delay=$($global:settings.Delay), Intensity=$($global:settings.Intensity), Pattern=$($global:settings.Pattern)"
+    Write-Host "`n`nKeybinds: Ctrl+Shift+J to toggle, Ctrl+Shift+Q to exit."
     # Start jiggler based on these settings
     Start-Jiggler
     $window.Close()
