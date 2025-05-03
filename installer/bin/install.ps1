@@ -66,8 +66,8 @@ $global:ulaTextBox.Height = 200
 $global:ulaTextBoxSV = New-Object Windows.Controls.ScrollViewer
 $global:ulaTextBoxSV.Visibility = "Hidden"
 $global:ulaTextBoxSV.Content = $global:ulaTextBox
-$global:grid.Children.Add($global:ulaTextBoxSV)
 $global:ulaTextBoxSV.Margin = '0,10,0,0'
+$global:grid.Children.Add($global:ulaTextBoxSV)
 [Windows.Controls.Grid]::SetRow($global:ulaTextBoxSV, 0)
 
 ## ULA RadioButtons
