@@ -10,7 +10,7 @@ $global:speedAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Obje
 
 # Create Window
 $global:menuwindow = New-Object System.Windows.Window
-$global:menuwindow.Title = "ToolBored Aim Trainer"
+$global:menuwindow.Title = "ToolBored $($global:appversionid) Aim Trainer"
 $global:menuwindow.Width = 1000
 $global:menuwindow.Height = 700
 $global:menuwindow.WindowStartupLocation = "CenterScreen"

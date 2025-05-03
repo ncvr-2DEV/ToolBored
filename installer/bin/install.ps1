@@ -66,8 +66,8 @@ $global:ulaTextBox.Height = 200
 $global:ulaTextBoxSV = New-Object Windows.Controls.ScrollViewer
 $global:ulaTextBoxSV.Visibility = "Hidden"
 $global:ulaTextBoxSV.Content = $global:ulaTextBox
-$global:grid.Children.Add($global:ulaTextBoxSV)
 $global:ulaTextBoxSV.Margin = '0,10,0,0'
+$global:grid.Children.Add($global:ulaTextBoxSV)
 [Windows.Controls.Grid]::SetRow($global:ulaTextBoxSV, 0)
 
 ## ULA RadioButtons
@@ -288,6 +288,7 @@ $global:nextButton.Add_Click({
     } elseif ($global:versionSelectDropDown.Visibility -eq "Visible") {
         $global:versionSelectDropDown.Visibility = "Hidden"
         $global:versionLabel.Visibility = "Hidden"
+        $global:installLabel.Text = "Confirm installation:`n`n`nInstallation Path: $($global:folderPath.Text)`nVersion: $($global:versionSelectDropDown.SelectedItem)`n`nClick Install to proceed."
         $global:installLabel.Visibility = "Visible"
         $global:extraOptionsSP.Visibility = "Visible"
         $global:nextButton.Content = "Install"
@@ -406,6 +407,7 @@ $global:Window.Add_Closing({
         $global:ulaButtonSP.Visibility = "Hidden"
         $global:installLabel.Visibility = "Hidden"
         $global:langDropDown.Visibility = "Hidden"
+        $global:extraOptionsSP.Visibility = "Hidden"
         $global:exitLabel.Visibility = "Visible"
         $global:Window.WindowStyle = "None"
 

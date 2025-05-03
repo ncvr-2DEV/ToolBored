@@ -40,15 +40,32 @@ $files = @(
     "bin/reset.ps1",
     "bin/selector.ps1",
     "bin/cb2/aimtrainer.ps1",
+    "bin/cb2/fakehack.ps1",
+    "bin/cb2/flashcard.ps1",
     "bin/cb2/menu.ps1",
     "bin/cb2/mousejiggle.ps1",
     "bin/gui/menu.ps1",
     "bin/modules/aimtrainerengine.ps1",
     "bin/modules/aimtrainersettings.ps1",
-    "bin/modules/mousejctrl.ps1"
+    "bin/modules/flashcard.ps1",
+    "bin/modules/mousejctrl.ps1",
+    "bin/modules/newflashcard.ps1",
+    "bin/modules/fh/fhstart.ps1"
 )
-
-$uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/stable/"
+if ($Version -eq "stable") {
+    $uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/stable/"
+} elseif ($Version -eq "beta") {
+    $uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/beta/"
+    Write-Host "`n[WARNING] You are using the beta version. Things may break. This version is updated randomly and frequently, you could already be using a previous version. Please report any issues." -ForegroundColor Yellow
+} elseif ($Version -eq "SmoothUI") {
+    $uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/beta/"
+    Write-Host "`n[WARNING] SmoothUI version is unavailable. Defaulting to beta." -ForegroundColor Yellow
+    Write-Host "`n[WARNING] You are using the beta version. Things may break. This version is updated randomly and frequently, you could already be using a previous version. Please report any issues." -ForegroundColor Yellow
+} else {
+    Write-Host "`n[ERROR] Invalid version specified. Please check your configuration." -ForegroundColor DarkRed
+    Pause
+    exit 1
+}
 $total = $files.Count
 $count = 0
 $maxLength = ($files | Measure-Object -Property Length -Maximum).Maximum
@@ -103,7 +120,7 @@ if ($SM -eq "true") {
 }
 if ($Start -eq "true") {
     Write-Host "[INFO] Starting ToolBored..." -ForegroundColor Blue
-    Start-Process -FilePath ([System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd'))
+    Start-Process -FilePath ([System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd')) -WorkingDirectory $Path
 }
 
 

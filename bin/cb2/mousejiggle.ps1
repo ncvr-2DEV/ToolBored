@@ -54,7 +54,7 @@ $global:HotkeyCooldown = 300
 
 # --- Create the MouseJiggler Config UI using WPF ---
 $window = New-Object System.Windows.Window
-$window.Title = "MouseJiggler Config"
+$window.Title = "ToolBored $($global:appversionid) Mouse Jiggler"
 $window.Width = 300
 $window.Height = 200
 $window.WindowStartupLocation = "CenterScreen"
