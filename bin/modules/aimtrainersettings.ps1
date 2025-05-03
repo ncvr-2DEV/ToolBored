@@ -5,6 +5,7 @@ $window = New-Object Windows.Window
 $window.Title = "ToolBored Aim Trainer Settings"
 $window.Width = 400
 $window.Height = 350
+$window.ResizeMode = "NoResize"
 $window.WindowStartupLocation = "CenterScreen"
 
 # Main Grid
