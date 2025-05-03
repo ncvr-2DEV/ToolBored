@@ -13,4 +13,8 @@ Simple script that allows you to jiggle your mouse to keep the system on.
 
 Hover your mouse or click the popup as fast as you can to test reaction times and accuracy!
 
+### Flashcard creator
+
+Create your own flashcards with this simple to use flashcard creator.
+
 ##### More coming soon!
