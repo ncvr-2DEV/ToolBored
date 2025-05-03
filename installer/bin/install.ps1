@@ -288,6 +288,7 @@ $global:nextButton.Add_Click({
     } elseif ($global:versionSelectDropDown.Visibility -eq "Visible") {
         $global:versionSelectDropDown.Visibility = "Hidden"
         $global:versionLabel.Visibility = "Hidden"
+        $global:installLabel.Text = "Confirm installation:`n`n`nInstallation Path: $($global:folderPath.Text)`nVersion: $($global:versionSelectDropDown.SelectedItem)`n`nClick Install to proceed."
         $global:installLabel.Visibility = "Visible"
         $global:extraOptionsSP.Visibility = "Visible"
         $global:nextButton.Content = "Install"
