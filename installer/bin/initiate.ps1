@@ -127,5 +127,5 @@ if ($Start -eq "true") {
 
 # End of installation
 Write-Host "`n[INFO] Installation completed." -ForegroundColor Blue
-Start-Sleep -Seconds 1
+Pause
 exit 1
