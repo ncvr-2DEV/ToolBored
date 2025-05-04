@@ -124,7 +124,7 @@ function Check-Answer {
     if ($ans -eq $q.Answer.Trim()) {
         $global:fcCorrect++
         if ($last) {
-            $feedbackBlock.Text       = "[!] Correct! Quiz completed!"
+            $feedbackBlock.Text       = "[!] Correct! Quiz completed! Press ESC to exit."
             $feedbackBlock.Foreground = 'Blue'
         } else {
             $feedbackBlock.Text       = "[!] Correct!"
@@ -132,7 +132,7 @@ function Check-Answer {
         }
     } else {
         if ($last) {
-            $feedbackBlock.Text       = "[X] Wrong! Quiz completed. Ans: $($q.Answer)"
+            $feedbackBlock.Text       = "[X] Wrong! Quiz completed. Ans: $($q.Answer). Press ESC to exit."
             $feedbackBlock.Foreground = 'Purple'
         } else {
             $feedbackBlock.Text       = "[X] Wrong! Answer: $($q.Answer)"
