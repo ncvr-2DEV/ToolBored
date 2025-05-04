@@ -1,4 +1,5 @@
 $host.UI.RawUI.WindowTitle = "Nitrous - ACX Elite"
+$defaultColor = $host.UI.RawUI.ForegroundColor
 $host.UI.RawUI.ForegroundColor = "Green"
 
 
@@ -96,9 +97,62 @@ Get-CPUInfo
 New-Line -W "namespace STD was not located"
 New-Line -W "using workaround: pwsh"
 Start-Sleep -Milliseconds 60
-ipconfig /all
 New-Line -W "Net class unavailable"
 New-Line "Waiting for object creation..."
-Pause
-Pause
-Pause
+Start-Sleep -Milliseconds 100
+New-Line "Loading registry..."
+Start-Sleep -Milliseconds 900
+
+
+function Main-Menu {
+    # Main menu
+    Clear-Host
+    Write-Host "`n`nNitrous - ACX Elite server penetration testing framework`nVersion 5.6.1"
+    Write-Host "`n`n[1] - Dump registry"
+    Write-Host "[2] - Tree local C:"
+    Write-Host "[3] - List all processes"
+    $ans = Read-Host "`n`$>"
+
+    if ($ans -eq 1) {
+        Clear-Host
+        New-Line "Dumping registry..."
+        Start-Sleep -Seconds 2
+        reg query "HKLM\DRIVERS" /s
+        reg query "HKLM\HARDWARE" /s
+        reg query "HKLM\SAM" /s
+        reg query "HKLM\SOFTWARE" /s
+        reg query "HKLM\SYSTEM" /s
+        New-Line "Registry dump complete."
+        Pause
+        Main-Menu
+    } elseif ($ans -eq 2) {
+        Clear-Host
+        Write-Host "`n`nTree local C:"
+        Start-Sleep -Seconds 2
+        New-Line "C:\Windows\System32"
+        New-Line "C:\Windows\System32\config"
+        New-Line "C:\Windows\System32\drivers"
+        tree C:\ /f /a
+        Pause
+        Main-Menu
+    } elseif ($ans -eq 3) {
+        Clear-Host
+        Write-Host "`n`nListing all processes..."
+        Start-Sleep -Seconds 2
+        Get-Process | Format-Table -AutoSize
+        Pause
+        Main-Menu
+    } elseif ($ans -eq "exit") {
+        New-Line "Cleaning up..."
+        $host.UI.RawUI.foregroundColor = $defaultColor
+        $host.UI.RawUI.WindowTitle = "ToolBored - [CLI]"
+        Restart
+        return
+    } else {
+        $ans
+        Pause
+        Main-Menu
+    }
+}
+
+Main-Menu
