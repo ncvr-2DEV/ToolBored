@@ -22,6 +22,7 @@ if ($License -eq "false") {
 }
 
 # Intro
+$host.UI.RawUI.WindowTitle = "ToolBored Installer"
 Write-Host "`nInstalling ToolBored -$Version" -ForegroundColor Cyan
 Write-Host "--------------------------------------" -ForegroundColor Blue
 Write-Host "[INFO] Installation path: $Path" -ForegroundColor Blue
