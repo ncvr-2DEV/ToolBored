@@ -1,4 +1,4 @@
-$buildInfo = Get-Content -Path $buildInfoPath -Raw | ConvertFrom-Json
+$buildInfo = Get-Content -Path .\bin\buildinfo.json -Raw | ConvertFrom-Json
 
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/eiedouno/ToolBored/stable/installer/bin/initiate.ps1" -OutFile .\bin\initiate-update.ps1
 
