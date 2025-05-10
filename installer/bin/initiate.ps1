@@ -4,7 +4,7 @@ param(
     [string]$License = "false",
     [string]$DS="false",
     [string]$SM="false",
-    [string]$Start="false"
+    [string]$Start="false",
     [bool]$autokill=$false
 )
 
