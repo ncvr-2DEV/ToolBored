@@ -5,6 +5,7 @@ param(
     [string]$DS="false",
     [string]$SM="false",
     [string]$Start="false"
+    [bool]$autokill=$false
 )
 
 # This is the installer for ToolBored.
@@ -137,5 +138,10 @@ Write-Host "[INFO] Build info saved to $buildInfoPath" -ForegroundColor Blue
 
 # End of installation
 Write-Host "`n[INFO] Installation completed." -ForegroundColor Blue
-Pause
+if ($autokill -eq "true") {
+    Stop-Process -Id $PID
+} else {
+    Write-Host "[INFO] Press any key to exit." -ForegroundColor Blue
+}
+Pause | Out-Null
 exit 1
