@@ -35,6 +35,7 @@ Start-Sleep -Seconds 1
 $files = @(
     "TB.ps1",
     "ToolBored-Launcher.cmd",
+    "update.ps1",
     "LICENSE.md",
     "README.md",
     "bin/alias.ps1",
