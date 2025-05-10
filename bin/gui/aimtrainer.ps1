@@ -109,7 +109,7 @@ $global:resetStatsButton.Add_Click({
         New-Item -Path ".\bin\aimtrainertimes.log" -ItemType File -Force | Out-Null
         [System.Windows.MessageBox]::Show("Stats reset successfully!", "Reset Stats", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
         $global:menuwindow.Close()
-        .\bin\cb2\aimtrainer.ps1
+        .\bin\gui\aimtrainer.ps1
     }
 })
 

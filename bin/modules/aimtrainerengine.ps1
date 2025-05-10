@@ -130,7 +130,7 @@ function Show-Results {
         Spawn-Target
     } else {
         [System.Windows.Forms.Application]::Exit()
-        .\bin\cb2\aimtrainer.ps1
+        .\bin\gui\aimtrainer.ps1
     }
 }
 

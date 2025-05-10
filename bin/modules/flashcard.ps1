@@ -183,4 +183,4 @@ $window.Content = $entryGrid
 $window.ShowActivated = $true
 $window.Focus()
 $window.ShowDialog()
-.\bin\cb2\flashcard.ps1
+.\bin\gui\flashcard.ps1
