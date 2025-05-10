@@ -8,5 +8,6 @@ Start-Process -FilePath "powershell.exe" -ArgumentList @(
     "-Version $($buildInfo.Version)",
     "-License", "true",
     "-Start", "true"
+    "-Autokill", "true"
 ) 
 Stop-Process -Id $PID

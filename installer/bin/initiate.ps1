@@ -5,7 +5,7 @@ param(
     [string]$DS="false",
     [string]$SM="false",
     [string]$Start="false",
-    [bool]$autokill=$false
+    [string]$autokill="false"
 )
 
 # This is the installer for ToolBored.
