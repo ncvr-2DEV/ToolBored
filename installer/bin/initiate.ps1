@@ -40,11 +40,10 @@ $files = @(
     "bin/alias.ps1",
     "bin/reset.ps1",
     "bin/selector.ps1",
-    "bin/cb2/aimtrainer.ps1",
-    "bin/cb2/fakehack.ps1",
-    "bin/cb2/flashcard.ps1",
-    "bin/cb2/menu.ps1",
-    "bin/cb2/mousejiggle.ps1",
+    "bin/gui/aimtrainer.ps1",
+    "bin/gui/fakehack.ps1",
+    "bin/gui/flashcard.ps1",
+    "bin/gui/mousejiggle.ps1",
     "bin/gui/menu.ps1",
     "bin/modules/aimtrainerengine.ps1",
     "bin/modules/aimtrainersettings.ps1",
@@ -124,6 +123,15 @@ if ($Start -eq "true") {
     Start-Process -FilePath ([System.IO.Path]::Combine($Path, 'ToolBored-Launcher.cmd')) -WorkingDirectory $Path
 }
 
+
+
+# Create build info file
+$buildInfoPath = Join-Path $Path "\bin\buildinfo.json"
+$buildInfo = @{
+    Version = $Version
+    Path = $Path
+} | ConvertTo-Json | Set-Content -Path $buildInfoPath -Force
+Write-Host "[INFO] Build info saved to $buildInfoPath" -ForegroundColor Blue
 
 
 # End of installation

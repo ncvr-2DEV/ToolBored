@@ -2,7 +2,7 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 # Create the window
 $window = New-Object System.Windows.Window
-$window.Title = "ToolBored $($global:appversionid) - [$($Global:UiType)- $($Global:comstatDirectX)]"
+$window.Title = "ToolBored $($global:appversionid) - [GUI - $($Global:comstatDirectX)]"
 $window.Width = 1000
 $window.Height = 700
 $window.WindowStartupLocation = "CenterScreen"
@@ -16,6 +16,12 @@ $window.Content = $panel
 $label = New-Object System.Windows.Controls.Label
 $label.Content = "Select a module:"
 $panel.Children.Add($label)
+
+# Module SP
+$moduleSP = New-Object System.Windows.Controls.StackPanel
+$moduleSP.Margin = [System.Windows.Thickness]::new(10)
+$moduleSP.Orientation = "Horizontal"
+$panel.Children.Add($moduleSP)
 
 # ComboBox: module list
 $comboBox = New-Object System.Windows.Controls.ComboBox
@@ -32,15 +38,27 @@ $comboBox = New-Object System.Windows.Controls.ComboBox
 ) | ForEach-Object {
     $comboBox.Items.Add($_) | Out-Null
 }
-$panel.Children.Add($comboBox)
+$comboBox.Width = 250
+$comboBox.Height = 50
+$moduleSP.Children.Add($comboBox)
 
 # Button: submit
 $button = New-Object System.Windows.Controls.Button
 $button.Content = "Start extension"
 $button.Width = 250
 $button.Height = 50
-$button.Margin = [System.Windows.Thickness]::new(0, 10, 0, 0)
-$panel.Children.Add($button)
+$button.Margin = [System.Windows.Thickness]::new(10, 0, 0, 0)
+$moduleSP.Children.Add($button)
+
+# Update button
+$updatebutton = New-Object System.Windows.Controls.Button
+$updatebutton.Content = "Update ToolBored"
+$updatebutton.Width = 150
+$updatebutton.Height = 30
+$updatebutton.VerticalAlignment = "Bottom"
+$updatebutton.HorizontalAlignment = "Left"
+$updatebutton.Margin = [System.Windows.Thickness]::new(0, 460, 0, 0)
+$panel.Children.Add($updatebutton)
 
 # Exit button
 $exitbutton = New-Object System.Windows.Controls.Button
@@ -49,7 +67,7 @@ $exitbutton.Width = 150
 $exitbutton.Height = 30
 $exitbutton.VerticalAlignment = "Bottom"
 $exitbutton.HorizontalAlignment = "Left"
-$exitbutton.Margin = [System.Windows.Thickness]::new(0, 480, 0, 0)
+$exitbutton.Margin = [System.Windows.Thickness]::new(0, 10, 0, 0)
 $panel.Children.Add($exitbutton)
 $exitbutton.Add_Click({
     $window.Close()
@@ -65,6 +83,11 @@ $button.Add_Click({
         $script:SelectedModule = $comboBox.SelectedItem.ToString()
     }
     $window.Close()
+})
+
+$updatebutton.Add_Click({
+    $window.Close()
+    .\update.ps1
 })
 
 # Show the window (blocking)
