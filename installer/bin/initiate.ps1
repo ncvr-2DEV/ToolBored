@@ -34,7 +34,6 @@ Start-Sleep -Seconds 1
 
 # File list
 $files = @(
-    "TB.ps1",
     "ToolBored-Launcher.cmd",
     "update.ps1",
     "LICENSE.md",
@@ -42,6 +41,7 @@ $files = @(
     "bin/alias.ps1",
     "bin/reset.ps1",
     "bin/selector.ps1",
+    "bin/TB.ps1",
     "bin/gui/aimtrainer.ps1",
     "bin/gui/fakehack.ps1",
     "bin/gui/flashcard.ps1",
