@@ -50,6 +50,16 @@ $button.Height = 50
 $button.Margin = [System.Windows.Thickness]::new(10, 0, 0, 0)
 $moduleSP.Children.Add($button)
 
+# Settings button
+$settingsbutton = New-Object System.Windows.Controls.Button
+$settingsbutton.Content = "Settings"
+$settingsbutton.Width = 150
+$settingsbutton.Height = 30
+$settingsbutton.VerticalAlignment = "Bottom"
+$settingsbutton.HorizontalAlignment = "Left"
+$settingsbutton.Margin = [System.Windows.Thickness]::new(0, 420, 0, 0)
+$panel.Children.Add($settingsbutton)
+
 # Update button
 $updatebutton = New-Object System.Windows.Controls.Button
 $updatebutton.Content = "Update ToolBored"
@@ -57,7 +67,7 @@ $updatebutton.Width = 150
 $updatebutton.Height = 30
 $updatebutton.VerticalAlignment = "Bottom"
 $updatebutton.HorizontalAlignment = "Left"
-$updatebutton.Margin = [System.Windows.Thickness]::new(0, 460, 0, 0)
+$updatebutton.Margin = [System.Windows.Thickness]::new(0, 10, 0, 0)
 $panel.Children.Add($updatebutton)
 
 # Exit button
@@ -90,8 +100,13 @@ $updatebutton.Add_Click({
     .\update.ps1
 })
 
+$settingsbutton.Add_Click({
+    $window.Close()
+    .\bin\gui\globalsettings.ps1
+})
+
 # Show the window (blocking)
-$null = $window.ShowDialog()
+$window.ShowDialog()
 
 # Output result
 if ($SelectedModule) {
