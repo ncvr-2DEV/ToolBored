@@ -4,8 +4,8 @@ Add-Type -AssemblyName System.Windows.Forms
 # Define Stats
 
 if (-not (Test-Path "$PSScriptRoot\bin\aimtrainertimes.log")) {
-    throw "[ERROR] Cannot find path '$PSScriptRoot\bin\aimtrainertimes.log' because it
-does not exist."
+    Write-Host "[ERROR] Cannot find path '$PSScriptRoot\bin\aimtrainertimes.log' because it
+does not exist." -ForegroundColor Red
 } else {
     $global:fastestAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -First 1
     $global:totalAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -Skip 1 -First 1
