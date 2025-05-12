@@ -322,7 +322,7 @@ $global:nextButton.Add_Click({
 # Back Button Click Event
 $global:backButton.Add_Click({
     if ($global:langDropDown.Visibility -eq "Visible") {
-        Stop-Process -Id $PID
+        $global:window.Close()
     } elseif ($global:ulaTextBoxSV.Visibility -eq "Visible") {
         $global:ulaTextBoxSV.Visibility = "Hidden"
         $global:ulaButtonSP.Visibility = "Hidden"
