@@ -4,7 +4,7 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 
 # Set Vars
-$global:license = Get-Content -Path ".\license.txt" -Raw
+$global:license = Get-Content -Path ".\ToolBored-Installer\LICENSE.txt" -Raw
 
 if ($license -eq $null) {
     Write-Host "Error: License file not found."
@@ -306,7 +306,7 @@ $global:nextButton.Add_Click({
         Start-Process -FilePath "powershell.exe" -ArgumentList @(
             "-ExecutionPolicy", "Bypass",
             "-NoProfile",
-            "-File", ".\bin\initiate.ps1",
+            "-File", ".\ToolBored-Installer\bin\initiate.ps1",
             "-Path", "`"$($global:Path)`"",
             "-Version", "`"$($global:Version)`"",
             "-License", "$($global:ulaAccept.IsChecked)"

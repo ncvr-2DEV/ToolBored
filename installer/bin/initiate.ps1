@@ -61,7 +61,7 @@ if ($Version -eq "stable") {
     Write-Host "`n[WARNING] You are using the beta version. Things may break. This version is updated randomly and frequently, you could already be using a previous version. Please report any issues." -ForegroundColor Yellow
 } elseif ($Version -eq "SmoothUI") {
     $uri = "https://raw.githubusercontent.com/eiedouno/ToolBored/beta/"
-    Write-Host "`n[WARNING] SmoothUI version is unavailable. Defaulting to beta." -ForegroundColor Yellow
+    Write-Host "`n[ERROR] SmoothUI version is unavailable. Defaulting to beta." -ForegroundColor Yellow
     Write-Host "`n[WARNING] You are using the beta version. Things may break. This version is updated randomly and frequently, you could already be using a previous version. Please report any issues." -ForegroundColor Yellow
 } else {
     Write-Host "`n[ERROR] Invalid version specified. Please check your configuration." -ForegroundColor DarkRed
@@ -133,8 +133,10 @@ $buildInfo = @{
     Version = $Version
     Path = $Path
 } | ConvertTo-Json | Set-Content -Path $buildInfoPath -Force
-Write-Host "[INFO] Build info saved to $buildInfoPath" -ForegroundColor Blue
+Write-Host "[INFO] Build info saved to buildinfo.json" -ForegroundColor Blue
 
+# Delete the installer
+Remove-Item -Path ToolBored-Installer -Force -Recurse
 
 # End of installation
 Write-Host "`n[INFO] Installation completed." -ForegroundColor Blue
