@@ -433,4 +433,4 @@ $global:Window.Add_Closing({
 
 ### Compile Window
 $global:Window.Content = $global:grid
-$global:Window.showDialog()
+$global:Window.ShowDialog()
