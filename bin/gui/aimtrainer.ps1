@@ -2,9 +2,15 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 
 # Define Stats
-$global:fastestAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -First 1
-$global:totalAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -Skip 1 -First 1
-$global:speedAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -Skip 2 -First 1
+
+if (-not (Test-Path "$PSScriptRoot\bin\aimtrainertimes.log")) {
+    throw "[ERROR] Cannot find path '$PSScriptRoot\bin\aimtrainertimes.log' because it
+does not exist."
+} else {
+    $global:fastestAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -First 1
+    $global:totalAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -Skip 1 -First 1
+    $global:speedAimTime = Get-Content -Path "bin\aimtrainertimes.log" | Select-Object -Skip 2 -First 1
+}
 
 
 
