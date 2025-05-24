@@ -1,7 +1,7 @@
 # Tool Bored
 
 **Prank, mess with Windows, and cure boredom with this simple Command-Line Software / Script!**<br>
-0.01-preview
+0.02-stable
 
 # Modules
 
