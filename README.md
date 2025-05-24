@@ -18,3 +18,5 @@ Hover your mouse or click the popup as fast as you can to test reaction times an
 Create your own flashcards with this simple to use flashcard creator.
 
 ##### More coming soon!
+
+Just made for me to learn, it's pretty useless.
